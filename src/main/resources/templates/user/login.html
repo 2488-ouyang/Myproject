@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="@{/}"><!-- 不用base就使用th:src="@{/js/jquery.min.js} -->
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <script type="text/javascript" th:inline="javascript">
+        function refreshCode() {
+            document.getElementById("mycode").src = [[@{/validateCode}]] + "?t=" + Math.random();
+        }
+
+    </script>
+
+
+
+
+
+<body class="before">
+
+
+<div class="container">
+    <div >
+        <h3 align="center" style="color: #2b542c" th:text="#{login.tip}">用户登录</h3>
+    </div>
+    <br><br>
+    <form action="user/login" name="myform" method="post" th:object="${bUser}" class="form-horizontal" role="form">
+        <div class="form-group has-success">
+            <label class="col-sm-2 col-mdZZSS-2 control-label" th:text="#{login.bemail}">邮箱</label>
+            <div class="col-sm-4 col-md-4">
+                <input type="email" class="form-control"
+                       th:placeholder="#{login.inputbemail}"
+                       th:field="*{bemail}"/>
+                <span th:errors="*{bemail}"></span>
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 col-md-2 control-label" th:text="#{login.password}">密码</label>
+            <div class="col-sm-4 col-md-4">
+                <input type="password" class="form-control"
+                       th:placeholder="#{login.inputpassword}" th:field="*{bpwd}"/>
+                <span th:errors="*{bpwd}"></span>
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 col-md-2 control-label" th:text="#{login.validcode}">验证码</label>
+            <div class="col-sm-4 col-md-4">
+                <table style="width: 100%">
+                    <tr>
+                        <td><input type="text" class="form-control"
+                                   th:placeholder="#{login.inputvalidcode}" th:field="*{code}"/></td>
+                        <td>
+                            <img th:src="@{/validateCode}" id="mycode">
+                        </td>
+                        <td>
+                            <a href="javascript:refreshCode()" th:text="#{login.notsee}">看不清换一张</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success" th:text="#{login.btn}">登录</button>
+                <button type="reset" class="btn btn-danger" th:text="#{login.reset}">重置</button>
+                <p class="mt-5  mb-3 text-muted">@2014-2020</p>
+                <a class="btn btn-sm" th:href="@{/user/login(l='zh_CN')}">中文</a>
+                <a class="btn btn-sm" th:href="@{/user/login(l='en_US')}">English</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <font size="6" color="red">
+                    <span th:text="${errorMessage }"></span>
+                </font>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
